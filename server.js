@@ -18,10 +18,24 @@ app.get('/',function (req, res) {
     res.sendFile(__dirname+'/public/index.html');
 });
 
+var start;
+var hours;
+var minites;
+var seconds;
+
 io.on('connection', function (socket) {
     socket.name="CHESTER";
-    socket.emit('news', { hello: socket.name});
+    start = new Date();
+    hours=start.getHours();
+    minites=start.getMinutes();
+    seconds=start.getSeconds();
+    socket.emit('news', { hello: socket.name,h:hours,m:minites,s:seconds});
     socket.on('my other event', function (data) {
+        start = new Date();
+        hours=start.getHours();
+        minites=start.getMinutes();
+        seconds=start.getSeconds();
+        socket.emit('news', { hello: socket.name,h:hours,m:minites,s:seconds});
         console.log(data);
     });
 });
